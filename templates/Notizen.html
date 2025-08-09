@@ -49,7 +49,7 @@
     event.preventDefault();
   })
 
-  SaveBtnNotePanel.addEventListener("click", () => {
+  SaveBtnNotePanel.addEventListener("click", async () => {
     const notiz = document.getElementById("NoteText").value;
     const priority = document.getElementById("PriorityNotePanel").value;
     const date = document.getElementById("DateNotePanel").value;
@@ -57,14 +57,24 @@
     if (Number.isInteger(priorityint)) {
       alert(`Neue Notiz: ${notiz}\nPriorität: ${priority}\nDatum: ${date}`);
     } else {
-      alert("Notiz Kann nciht gespeichert werden da die Prirotät keine Integer ist")
+      alert("Notiz Kann nicht gespeichert werden da die Prirotät keine Integer ist")
     }
     
+    const response = await fetch ("/api/save_note", {
+      method: "POST",
+      headers: {"Content-Type" : "application/json"},
+    });
 
-    NoteForm.style.display = "none";
-    toggleBtnNotePanel.textContent = "Neue Notiz hinzufügen";
-    NoteForm.reset();
-  })
+    if (response.ok) {
+      alert("Notiz gespeichert");
+      NoteForm.style.display = "none";
+      toggleBtnNotePanel.textContent = "Neue Notiz hinzufügen";
+      NoteForm.reset();
+    } else {
+      alert("Fehler beim Speichern!");
+    }
+  });
+
 
   CancleBtnNotePanel.addEventListener("click" , () => {
     NoteForm.style.display = "none";
