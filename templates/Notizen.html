@@ -54,15 +54,20 @@
     const priority = document.getElementById("PriorityNotePanel").value;
     const date = document.getElementById("DateNotePanel").value;
     const priorityint = parseInt(priority);
-    if (Number.isInteger(priorityint)) {
-      alert(`Neue Notiz: ${notiz}\nPriorität: ${priority}\nDatum: ${date}`);
-    } else {
+
+    if (!Number.isInteger(priorityint)) {
       alert("Notiz Kann nicht gespeichert werden da die Prirotät keine Integer ist")
+      return
     }
     
-    const response = await fetch ("/api/save_note", {
+    const response = await fetch ("/note_api/save_note", {
       method: "POST",
       headers: {"Content-Type" : "application/json"},
+      body: JSON.stringify({
+        notiz: notiz,
+        priorityint: priorityint,
+        date: date,
+      }),
     });
 
     if (response.ok) {
