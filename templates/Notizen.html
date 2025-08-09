@@ -7,21 +7,70 @@
     width: 20%;
     height: 20%;
   }
+  #NoteForm {
+    display: none;
+  }
 </style>
 
 <div class="Note_Panel">
   <h1>Notizen</h1>
-  <button id="" toggleBtnNotePanel>Neue Notiz hinzufügen</button>
+  <button id="toggleBtnNotePanel" >Neue Notiz hinzufügen</button>
   <form id="NoteForm">
-    <lable for="NoteText">Notiz:</lable>
+    <label for="NoteText">Notiz:</label>
     <textarea id="NoteText" name="NoteText" rows="4" cols="30" placeholder="Add Note"></textarea> 
     <br>
     <label for="priority">Priorität</label>
-    <input id="PriorityNotePaneltype="integer" step="1"></input>
+    <input id="PriorityNotePanel" type="number" step="1"></input>
     <br>
-    <lable for="Date">Datum:</lable>
+    <label for="Date">Datum:</label>
     <input id="DateNotePanel" type="date" name="NewNote"></input>
+    <button id="CancleBtnNotePanel" type="button">Abbrechen</button>
+    <button id="SaveBtnNotePanel" type="submit">Speichern</button>
   </form>
 </div>
 
-<script></script>
+<script>
+  const toggleBtnNotePanel = document.getElementById("toggleBtnNotePanel");
+  const NoteForm = document.getElementById("NoteForm")
+  const SaveBtnNotePanel = document.getElementById("SaveBtnNotePanel");
+  const CancleBtnNotePanel = document.getElementById("CancleBtnNotePanel");
+
+  toggleBtnNotePanel.addEventListener("click", () => {
+    if (NoteForm.style.display === "none" || NoteForm.style.display === "") {
+      NoteForm.style.display = "block";
+      toggleBtnNotePanel.textContent = "Formular schließen";
+    } else {
+      NoteForm.style.display = "none";
+      toggleBtnNotePanel.textContent = "Neue Notiz hinzufügen"
+    }
+  });
+
+  NoteForm.addEventListener("submit", event => {
+    event.preventDefault();
+  })
+
+  SaveBtnNotePanel.addEventListener("click", () => {
+    const notiz = document.getElementById("NoteText").value;
+    const priority = document.getElementById("PriorityNotePanel").value;
+    const date = document.getElementById("DateNotePanel").value;
+    const priorityint = parseInt(priority);
+    if (Number.isInteger(priorityint)) {
+      alert(`Neue Notiz: ${notiz}\nPriorität: ${priority}\nDatum: ${date}`);
+    } else {
+      alert("Notiz Kann nciht gespeichert werden da die Prirotät keine Integer ist")
+    }
+    
+
+    NoteForm.style.display = "none";
+    toggleBtnNotePanel.textContent = "Neue Notiz hinzufügen";
+    NoteForm.reset();
+  })
+
+  CancleBtnNotePanel.addEventListener("click" , () => {
+    NoteForm.style.display = "none";
+    toggleBtnNotePanel.textContent = "Neue Notiz hinzufügen";
+    NoteForm.reset();
+  })
+
+
+</script>
