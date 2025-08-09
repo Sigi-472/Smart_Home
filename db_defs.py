@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
+from datetime import date
 
 Base = declarative_base()
 
@@ -16,11 +16,6 @@ def get_engine(db_path="Database.db"):
   db_url = f"sqlite:///{db_path}"
   engine = create_engine(db_url, echo=False)
   return engine
-
-def get_engine(db_path="Database.db"):
-    db_url = f"sqlite:///{db_path}"
-    engine = create_engine(db_url, echo=False)
-    return engine
 
 def create_db(engine):
     Base.metadata.create_all(engine)
